@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+</head>
+<body>
+    <div style="height: 300px;width: 400px;background: rgba(45, 145, 226, 0.2);border-radius: 10px;position: relative;top: 50px;left: 50%;margin-left: -200px;text-align: right;">
+        <p>用户名：<input type="text" style="width: 200px;height: 30px;margin-top: 20px;margin-right: 80px;outline:none;"></p>
+        <p>密码：<input type="password" style="width: 200px;height: 30px;margin-top:20px;margin-right: 80px;outline:none;"></p>
+        <div id="button" style="height: 30px;width: 80px;background: #5299f5;text-align: center;line-height: 30px;border-radius: 5px;position: relative;left: 50%;margin-left: -40px;margin-top: 30px;">
+            登陆
+        </div>
+    </div>
+
+    <script>
+        let button = document.getElementById('button')
+        let userpass = document.getElementsByTagName('input')
+        button.addEventListener('click',function(){
+            var xhr = new XMLHttpRequest();
+            //true表示异步
+            xhr.open('get', '/register/?username=' + userpass[0].value + '&password=' + userpass[1].value, true);
+            xhr.onreadystatechange = function() {
+                // readyState == 4说明请求已完成
+                if(xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+                    //responseText：从服务器获得数据
+                    let data = JSON.parse(xhr.responseText)
+                    if(data.status == 1) location.href = '/chatroom'
+                }
+            };
+            xhr.send();
+        })
+    </script>
+</body>
+</html>
